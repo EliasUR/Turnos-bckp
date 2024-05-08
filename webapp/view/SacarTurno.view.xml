@@ -1,0 +1,122 @@
+<mvc:View xmlns:control="sap.gantt.control" controllerName="com.softtek.aca20241qer.controller.SacarTurno"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:f="sap.f"
+    xmlns:core="sap.ui.core" xmlns:tnt="sap.tnt" xmlns:u="sap.ui.unified" xmlns:card="sap.f.cards">
+    <tnt:ToolPage>
+        <tnt:header>
+			<core:Fragment id="nav" fragmentName="com.softtek.aca20241qer.view.fragments.Nav" type="XML"/>
+		</tnt:header>
+        <tnt:mainContents>
+			<Wizard id="wizardTurnos" 
+				showNextButton="false">
+				<WizardStep id="especialidad" title="Eligir Especialidad">
+					<VBox justifyContent="Center" alignItems="Center" width="100%">
+						<f:Card class="sapUiTinyMargin">
+							<f:header>
+								<card:Header title="Especialidad"
+									subtitle="Primero elija la especialidad requerida"
+									iconSrc="sap-icon://accidental-leave"/>
+							</f:header>
+							<f:content>
+								<VBox justifyContent="Center" alignItems="Center" width="100%" height="30vh">
+									<ComboBox items="{ path: '/EspecialidadSet' }" 
+										placeholder="Elija de la lista" id="EspInput"
+										change="onSelectedEsp" selectedKey="{Turno>/IdEspecialidad}">
+										<items>
+											<core:Item key="{IdEspecialidad}" text="{Nombre}"/>
+										</items>
+									</ComboBox>
+								</VBox>
+							</f:content>
+						</f:Card>
+					</VBox>
+				</WizardStep>
+				<WizardStep id="doctor" title="Asignar Medico">
+					<VBox justifyContent="Center" alignItems="Center" width="100%" >
+						<f:Card class="sapUiTinyMargin">
+							<f:header>
+								<card:Header title="Medico"
+									subtitle="Ahora seleccione el medico que desea asignar"
+									iconSrc="sap-icon://doctor"/>
+							</f:header>
+							<f:content>
+								<VBox justifyContent="Center" alignItems="Center" width="100%" height="30vh">
+									<ComboBox items="{ path: '/MedicoSet' }" 
+										placeholder="Elija de la lista" id="doctores"
+										change="onSelectedMedico" selectedKey="{Turno>/LegajoMedico}">
+										<items>
+											<core:Item key="{Legajo}" text="{Apellido}, {Nombre}"/>
+										</items>
+									</ComboBox>
+								</VBox>
+							</f:content>
+						</f:Card>
+					</VBox>
+				</WizardStep>
+				<WizardStep id="horario" title="Elegir horario">
+					<HBox justifyContent="Center" alignItems="Center" 
+						wrap="Wrap" width="100%" >
+						<f:Card class="sapUiTinyMargin">
+							<f:header>
+								<card:Header title="Fecha y hora"
+									subtitle="Luego tambien la fecha y hora correspondiente"
+									iconSrc="sap-icon://appointment"/>
+							</f:header>
+							<f:content>
+								<VBox justifyContent="Center" alignItems="Center" width="100%">
+									<u:Calendar id="fecha"/>
+									<TimePicker id="HoraInput" displayFormat="HH:mm"
+										value="{ 
+											path: 'Turno>/HoraTurno', 
+											type: 'sap.ui.model.odata.type.Time',
+											formatOptions: {
+												source: { pattern: 'PTHHHMMMSSS' },
+												pattern: 'HH:mm'
+											}
+										}"/>
+									<HBox justifyContent="End" alignItems="End" width="100%">
+										<Button text="Siguiente" type="Emphasized" 
+											press="onSelectedDateTime" class="sapUiTinyMargin"/>
+									</HBox>
+								</VBox>
+							</f:content>
+						</f:Card>
+					</HBox>
+					
+				</WizardStep>
+				<WizardStep id="paciente" title="Datos del paciente">
+					<HBox justifyContent="Center" alignItems="Center" 
+						wrap="Wrap" width="100%" >
+						<f:Card class="sapUiTinyMargin">
+							<f:header>
+								<card:Header title="Datos del Paciente"
+									subtitle="Por último indique DNI y nombre completo"
+									iconSrc="sap-icon://wounds-doc"/>
+							</f:header>
+							<f:content>
+								<VBox justifyContent="Center" alignItems="Center" width="100%">
+									<VBox class="sapUiSmallMargin">
+										<Label text="Número de DNI (sin puntos):"/>
+										<Input value="{Turno>/DniPaciente}" type="Number" 
+											placeholder="ej. 12345678" id="DniInput"/>
+									</VBox>
+									<VBox class="sapUiSmallMargin">
+										<Label text="Apellido y Nombre:"/>
+										<Input value="{Turno>/NombrePaciente}" id="NombreInput"
+											placeholder="ej. Perez, José"/>
+									</VBox>
+									<HBox justifyContent="End" alignItems="End" width="100%" >
+										<Button type="Accept" text="Asignar Turno" 
+											icon="sap-icon://clinical-order"
+											press="onSave" class="sapUiTinyMarginBottom"/>
+										<Button type="Reject" text="Cancelar" icon="sap-icon://decline"
+											class="sapUiTinyMargin" press="onBack"/>
+									</HBox>
+								</VBox>
+							</f:content>
+						</f:Card>
+					</HBox>
+				</WizardStep>
+			</Wizard>
+		</tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

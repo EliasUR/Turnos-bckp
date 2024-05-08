@@ -1,0 +1,33 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    >
+    <Dialog id="createDialog" title="Reagendar">
+        <content>
+            <form:SimpleForm>
+                <form:content>
+                    <DatePicker value="{
+						constraints : {displayFormat : 'Date'},
+						path : 'Turno>/FechaTurno',
+						type : 'sap.ui.model.odata.type.DateTime'
+					}" />
+                    <TimePicker id="HoraInput" displayFormat="HH:mm"
+                        value="{ 
+                            path: 'Turno>/HoraTurno', 
+                            type: 'sap.ui.model.odata.type.Time',
+                            formatOptions: {
+                                source: { pattern: 'PTHHHMMMSSS' },
+                                pattern: 'HH:mm'
+                            }
+                        }"/>
+                </form:content>
+            </form:SimpleForm>
+        </content>
+        <beginButton>
+            <Button type="Accept" icon="sap-icon://accept" press="onSaveTurno" />
+        </beginButton>
+        <endButton>
+            <Button type="Reject" icon="sap-icon://decline" press="onCerrarEdit" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

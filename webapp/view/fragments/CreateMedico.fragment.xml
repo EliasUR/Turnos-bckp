@@ -1,0 +1,52 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    >
+    <Dialog id="createDialog" title="Nuevo Medico">
+        <content>
+            <form:SimpleForm>
+                <form:content>
+                    <Label text="Nombre" />
+                    <Input value="{Medico>/Nombre}" placeholder="ej. Pablo"
+                        valueLiveUpdate="true" />
+                    <Label text="Apellido" />
+                    <Input value="{Medico>/Apellido}" placeholder="ej. Perez"
+                        valueLiveUpdate="true"/>
+                    <Label text="Especialidad" />
+                    <ActionSelect items="{ path: '/EspecialidadSet' }" 
+                        selectedKey="{Medico>/IdEspecialidad}">
+                        <items>
+                            <core:Item key="{IdEspecialidad}" text="{Nombre}"/>
+                        </items>
+                    </ActionSelect>
+                    <Label text="Hora de ingreso" />
+                    <TimePicker id="ingreso" displayFormat="HH:mm"
+                        value="{ 
+                            path: 'Medico>/HoraDeIngreso', 
+                            type: 'sap.ui.model.odata.type.Time',
+                            formatOptions: {
+                                source: { pattern: 'PTHHHMMMSSS' },
+                                pattern: 'HH:mm'
+                            }
+                        }"/>
+                    <Label text="Hora de egreso" />
+                    <TimePicker id="egreso" displayFormat="HH:mm"
+                        value="{ 
+                            path: 'Medico>/HoraDeEgreso', 
+                            type: 'sap.ui.model.odata.type.Time',
+                            formatOptions: {
+                                source: { pattern: 'PTHHHMMMSSS' },
+                                pattern: 'HH:mm'
+                            }
+                        }"/>
+                </form:content>
+            </form:SimpleForm>
+        </content>
+        <beginButton>
+            <Button type="Accept" icon="sap-icon://accept" press="onSaveCreate" />
+        </beginButton>
+        <endButton>
+            <Button type="Reject" icon="sap-icon://decline" press="onCerrarCreate" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

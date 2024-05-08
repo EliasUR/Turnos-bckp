@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.f">
+    <SideNavigation xmlns="sap.tnt" xmlns:core="sap.ui.core" expanded="true"
+        id="sideBar" itemSelect="onItemSelect" selectedKey="Medicos">
+        <NavigationList>
+            <NavigationListItem text="Home"  key="Home" icon="home"/>
+            <NavigationListItem text="Sacar Turno" key="NewTurno" icon="sap-icon://clinical-order"/>
+            <NavigationListItem text="Todos"  key="Medicos" icon="sap-icon://doctor"
+                items="{/EspecialidadSet}" > 
+                <NavigationListItem xmlns="sap.tnt" text="{Nombre}" key="{IdEspecialidad}" enabled="true"/>
+            </NavigationListItem>
+        </NavigationList>
+        <fixedItem>
+            <NavigationList>
+            </NavigationList>
+        </fixedItem>
+    </SideNavigation>
+</core:FragmentDefinition>

@@ -1,0 +1,24 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns:tnt="sap.tnt">
+	<tnt:ToolHeader>
+		<Button icon="sap-icon://nav-back" type="Transparent" press="onBack" visible="{viewModel>/backBtn}"/>
+		<Button icon="sap-icon://menu2" type="Transparent" press="onMenuButtonPress" visible="{viewModel>/menuBtn}"/>
+		<Image src="{viewModel>/logo}" height="85%" press="onNavToHome"/>
+		<Title text="{i18n>title}" wrapping="true" class="sapUiSmallMarginEnd"/>
+		<ToolbarSeparator />
+		<IconTabHeader id="navTabs"
+			select="onItemSelect"
+			showOverflowSelectList="true"
+			backgroundDesign="Transparent"
+			mode="Inline">
+			<layoutData>
+				<OverflowToolbarLayoutData
+					priority="NeverOverflow"
+					shrinkable="true" />
+			</layoutData>
+			<items>
+				<IconTabFilter text="Sacar Turno" key="NewTurno"/>
+				<IconTabFilter text="Medicos" key="Medicos"/>
+			</items>
+		</IconTabHeader>
+	</tnt:ToolHeader>
+</core:FragmentDefinition>

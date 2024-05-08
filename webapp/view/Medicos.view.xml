@@ -1,0 +1,115 @@
+<mvc:View xmlns:control="sap.gantt.control" controllerName="com.softtek.aca20241qer.controller.Medicos"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m" xmlns:tnt="sap.tnt"
+    xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:core="sap.ui.core">
+    <tnt:ToolPage id="page">
+        <tnt:header>
+			<core:Fragment id="nav" fragmentName="com.softtek.aca20241qer.view.fragments.Nav" type="XML"/>
+		</tnt:header>
+        <tnt:sideContent>
+			<core:Fragment id="sidebar" fragmentName="com.softtek.aca20241qer.view.fragments.Sidebar" type="XML"/>
+        </tnt:sideContent>
+        <tnt:mainContents>						
+            <f:DynamicPage id="medicos" showFooter="true">
+                <f:title>
+                    <f:DynamicPageTitle>
+                        <f:heading>
+                            <Title text="Medicos"></Title>
+                        </f:heading>
+                    </f:DynamicPageTitle>
+                </f:title>
+                <f:header>
+                    <f:DynamicPageHeader>
+                        <fb:FilterBar showRestoreButton="false" useToolbar="false" 
+                        showFilterConfiguration="false" showGoOnFB="false">
+                            <fb:filterGroupItems>
+                                <fb:FilterGroupItem name="apellido" groupName="filters" 
+                                    label="Apellido" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <Input value="{filters>/Apellido}" valueLiveUpdate="true" 
+                                        liveChange="onSearch" placeholder="ej. Juan"/>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+                                <fb:FilterGroupItem name="nombre" groupName="filters" 
+                                    label="Nombre" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <Input value="{filters>/Nombre}" valueLiveUpdate="true" 
+                                        liveChange="onSearch" placeholder="ej. Perez"/>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+                            </fb:filterGroupItems>
+                        </fb:FilterBar>
+                    </f:DynamicPageHeader>
+                </f:header>
+
+                <f:content>
+                    <Table id="tablaDeMedicos" growing="true" growingThreshold="15" items="{
+                        path:'/MedicoSet',
+                        parameters: {expand: 'ToEspecialidad'}
+                    }"> 
+                        <headerToolbar>
+                            <OverflowToolbar >
+                                <content>
+                                    <ToolbarSpacer />
+                                    <Button id="clearFilters" icon="sap-icon://clear-filter" 
+                                        text="Borrar filtros" press="onClearFilters" type="Emphasized"/>
+                                    <Button id="createMedico" icon="sap-icon://doctor" 
+                                    text="Nuevo Medico" press="onCreate" type="Accept"/>
+                                </content>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column mergeDuplicates="true" hAlign="Begin" minScreenWidth="Large" demandPopin="true">
+                                <Text text="Especialidad"></Text>
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="Legajo"></Text>
+                            </Column>
+                            <Column hAlign="Begin" minScreenWidth="Phone" demandPopin="true">
+                                <Text text="Nombre del Medico"></Text>
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="Desktop" demandPopin="true">
+                                <Text text="Horario Laboral (Desde/Hasta)"></Text>
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="XSmall" demandPopin="true">
+                                <Text text="Acciones"></Text>
+                            </Column>
+                            
+                        </columns>
+                        <items>
+                            <ColumnListItem vAlign="Middle">
+                                <cells>
+                                    <Text text="{ToEspecialidad/Nombre}"></Text>
+                                    <Text text="{Legajo}" ></Text>
+                                    <Text text="{Apellido}, {Nombre}"/>
+                                    <Text text="Desde { 
+                                                    path: 'HoraDeIngreso', 
+                                                    type: 'sap.ui.model.odata.type.Time',
+                                                    formatOptions: {
+                                                        source: { pattern: 'PTHHHMMMSSS' },
+                                                        pattern: 'HH:mm'
+                                                    }
+                                                } hs. 
+                                                Hasta { 
+                                                    path: 'HoraDeEgreso', 
+                                                    type: 'sap.ui.model.odata.type.Time',
+                                                    formatOptions: {
+                                                        source: { pattern: 'PTHHHMMMSSS' },
+                                                        pattern: 'HH:mm'
+                                                    }
+                                                } hs."/>
+                                    <FlexBox justifyContent="Center" alignItems="Center">
+                                        <Button id="verTurnos" icon="sap-icon://activity-items" press="onVerTurnos"
+                                            type="Default" text="Turnos" class="sapUiTinyMarginEnd"/>
+                                        <Button id="deleteMedico" icon="sap-icon://delete" press="onDelete" 
+                                            type="Reject" text=""/>
+                                    </FlexBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </f:content>
+            </f:DynamicPage>
+		</tnt:mainContents>
+    </tnt:ToolPage>
+</mvc:View>

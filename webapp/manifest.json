@@ -1,0 +1,181 @@
+{
+  "_version": "1.17.0",
+  "sap.app": {
+    "id": "com.softtek.aca20241qer",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.13.3",
+      "toolsId": "b2dbb2dd-f146-4664-bd8f-86260787824c"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZACA1Q2024_ER_TURNOS_SRV/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "AppTurnos-display": {
+          "semanticObject": "AppTurnos",
+          "action": "display",
+          "title": "{{flpTitle}}",
+          "subTitle": "{{flpSubtitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.71.67",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ui.comp": {},
+        "sap.ui.generic.app": {},
+        "sap.ui.table": {},
+        "sap.ushell": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.softtek.aca20241qer.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "com.softtek.aca20241qer.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "RouteMain",
+          "pattern": ":?query:",
+          "target": [
+            "TargetMain"
+          ]
+        },
+        {
+            "name": "Medicos",
+            "pattern": "Medicos/{IdEspecialidad}",
+            "target": [
+                "TargetMedicos"
+            ]
+        },
+        {
+            "name": "Turnos",
+            "pattern": "Medico/{IdEspecialidad}/{LegajoMedico}",
+            "target": [
+                "TargetTurnos"
+            ]
+        },
+        {
+            "name": "SacarTurno",
+            "pattern": "SacarTurno/{IdEspecialidad}-{LegajoMedico}",
+            "target": [
+                "TargetSacarTurno"
+            ]
+        }
+      ],
+      "targets": {
+        "TargetMain": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Main",
+          "viewName": "Main"
+        },
+        "TargetMedicos": {
+            "viewType": "XML",
+            "transition": "fade",
+            "clearControlAggregation": false,
+            "viewId": "Medicos",
+            "viewName": "Medicos"
+        },
+        "TargetTurnos": {
+            "viewType": "XML",
+            "transition": "slide",
+            "clearControlAggregation": false,
+            "viewId": "LegajoMedico",
+            "viewName": "Turnos"
+        },
+        "TargetSacarTurno": {
+            "viewType": "XML",
+            "transition": "fade",
+            "clearControlAggregation": false,
+            "viewId": "SacarTurno",
+            "viewName": "SacarTurno"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "com.softtek.aca20241qer.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "App"
+    }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "comsofttekaca20241qer"
+  }
+}

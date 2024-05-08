@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZACA1Q2024_ER_TURNOS_SRV" xml:lang="es" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Especialidad" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="IdEspecialidad"/>
+                </Key>
+                <Property Name="IdEspecialidad" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Id Especialidad" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Nombre" Type="Edm.String" Nullable="false" MaxLength="15" sap:unicode="false" sap:label="Nombre Especialidad" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="ToMedicoSet" Relationship="ZACA1Q2024_ER_TURNOS_SRV.Assoc_Especialidad_To_Medico" FromRole="FromRole_Assoc_Especialidad_To_Medico" ToRole="ToRole_Assoc_Especialidad_To_Medico"/>
+            </EntityType>
+            <EntityType Name="Medico" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Legajo"/>
+                    <PropertyRef Name="IdEspecialidad"/>
+                </Key>
+                <Property Name="Legajo" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="Legajo Medico" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="IdEspecialidad" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Id Especialidad" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Nombre" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Nombre" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Apellido" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Apellido" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoraDeIngreso" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="Hora de Ingreso" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoraDeEgreso" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="Hora de Egreso" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="ToEspecialidad" Relationship="ZACA1Q2024_ER_TURNOS_SRV.Assoc_Especialidad_To_Medico" FromRole="ToRole_Assoc_Especialidad_To_Medico" ToRole="FromRole_Assoc_Especialidad_To_Medico"/>
+                <NavigationProperty Name="ToTurnoSet" Relationship="ZACA1Q2024_ER_TURNOS_SRV.Assoc_Medico_To_Turno" FromRole="FromRole_Assoc_Medico_To_Turno" ToRole="ToRole_Assoc_Medico_To_Turno"/>
+            </EntityType>
+            <EntityType Name="Turno" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="IdEspecialidad"/>
+                    <PropertyRef Name="LegajoMedico"/>
+                    <PropertyRef Name="IdTurno"/>
+                </Key>
+                <Property Name="IdEspecialidad" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Id de la Especialidad" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="LegajoMedico" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="Legajo del Medico asingado" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="IdTurno" Type="Edm.String" Nullable="false" MaxLength="5" sap:unicode="false" sap:label="ID del Turno" sap:creatable="false" sap:updatable="false"/>
+                <Property Name="FechaTurno" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Fecha del Turno (dd.MM.aaaa)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="HoraTurno" Type="Edm.Time" Nullable="false" Precision="0" sap:unicode="false" sap:label="Hora del Turno (hh:mm:ss)" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DniPaciente" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="DNI del Paciente correspondiente" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="NombrePaciente" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Nombre completo del paciente" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="ToMedico" Relationship="ZACA1Q2024_ER_TURNOS_SRV.Assoc_Medico_To_Turno" FromRole="ToRole_Assoc_Medico_To_Turno" ToRole="FromRole_Assoc_Medico_To_Turno"/>
+            </EntityType>
+            <Association Name="Assoc_Especialidad_To_Medico" sap:content-version="1">
+                <End Type="ZACA1Q2024_ER_TURNOS_SRV.Especialidad" Multiplicity="1" Role="FromRole_Assoc_Especialidad_To_Medico"/>
+                <End Type="ZACA1Q2024_ER_TURNOS_SRV.Medico" Multiplicity="*" Role="ToRole_Assoc_Especialidad_To_Medico"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Assoc_Especialidad_To_Medico">
+                        <PropertyRef Name="IdEspecialidad"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Assoc_Especialidad_To_Medico">
+                        <PropertyRef Name="IdEspecialidad"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Assoc_Medico_To_Turno" sap:content-version="1">
+                <End Type="ZACA1Q2024_ER_TURNOS_SRV.Medico" Multiplicity="1" Role="FromRole_Assoc_Medico_To_Turno"/>
+                <End Type="ZACA1Q2024_ER_TURNOS_SRV.Turno" Multiplicity="*" Role="ToRole_Assoc_Medico_To_Turno"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_Assoc_Medico_To_Turno">
+                        <PropertyRef Name="IdEspecialidad"/>
+                        <PropertyRef Name="Legajo"/>
+                    </Principal>
+                    <Dependent Role="ToRole_Assoc_Medico_To_Turno">
+                        <PropertyRef Name="IdEspecialidad"/>
+                        <PropertyRef Name="LegajoMedico"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZACA1Q2024_ER_TURNOS_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="EspecialidadSet" EntityType="ZACA1Q2024_ER_TURNOS_SRV.Especialidad" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="MedicoSet" EntityType="ZACA1Q2024_ER_TURNOS_SRV.Medico" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="TurnoSet" EntityType="ZACA1Q2024_ER_TURNOS_SRV.Turno" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="Assoc_Especialidad_To_MedicoSet" Association="ZACA1Q2024_ER_TURNOS_SRV.Assoc_Especialidad_To_Medico" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="EspecialidadSet" Role="FromRole_Assoc_Especialidad_To_Medico"/>
+                    <End EntitySet="MedicoSet" Role="ToRole_Assoc_Especialidad_To_Medico"/>
+                </AssociationSet>
+                <AssociationSet Name="Assoc_Medico_To_TurnoSet" Association="ZACA1Q2024_ER_TURNOS_SRV.Assoc_Medico_To_Turno" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="MedicoSet" Role="FromRole_Assoc_Medico_To_Turno"/>
+                    <End EntitySet="TurnoSet" Role="ToRole_Assoc_Medico_To_Turno"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://stks4hpil.eastus2.cloudapp.azure.com:8002/sap/opu/odata/sap/ZACA1Q2024_ER_TURNOS_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://stks4hpil.eastus2.cloudapp.azure.com:8002/sap/opu/odata/sap/ZACA1Q2024_ER_TURNOS_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,190 @@
+<mvc:View xmlns:control="sap.gantt.control" controllerName="com.softtek.aca20241qer.controller.Turnos"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:tnt="sap.tnt"
+    xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:core="sap.ui.core">    
+    <tnt:ToolPage id="page">
+        <tnt:header>
+			<core:Fragment id="nav" fragmentName="com.softtek.aca20241qer.view.fragments.Nav" type="XML"/>
+		</tnt:header>
+        <tnt:sideContent>
+			<core:Fragment id="sidebar" fragmentName="com.softtek.aca20241qer.view.fragments.Sidebar" type="XML"/>
+        </tnt:sideContent>
+        <tnt:mainContents>
+            <f:DynamicPage showFooter="true">
+                <f:title>
+                    <f:DynamicPageTitle>
+                        <f:heading> 
+                            <Title wrapping="true"
+                                text="Turnos asignados a {Nombre} {Apellido}."/>
+                        </f:heading>
+                    </f:DynamicPageTitle>
+                </f:title>
+                <f:header>
+                    <f:DynamicPageHeader>
+                        <HBox alignItems="Center">
+                            <Button type="Back" class="sapUiSmallMarginEnd" press="onBack"/>   
+                            <Title text="Datos Personales" class="sapUiTinyMarginTop"></Title>
+                        </HBox>
+                        <HBox width="100%" justifyContent="SpaceBetween" alignItems="Start" wrap="Wrap">
+                            <VBox>
+                                <List showSeparators="Inner">
+                                    <StandardListItem title="Legajo" description="{Legajo}"/>
+                                    <StandardListItem title="Nombre Completo" description="{Apellido}, {Nombre}"/>
+                                </List>
+                            </VBox>
+                            <VBox class="sapUiMediumMarginEnd">
+                                <List showSeparators="Inner" class="sapUiNoContentPadding">
+                                    <StandardListItem title="Especialidad" 
+                                        description="{ToEspecialidad/Nombre}"/>
+                                    <StandardListItem title="Jornada Laboral"
+                                        class="sapUiTinyMarginTop"/>                                    
+                                </List>
+                                <Label visible="true" class="sapUiSmallMarginBegin" id="horarioLabel"
+                                    text="Desde { 
+                                        path: 'HoraDeIngreso', 
+                                        type: 'sap.ui.model.odata.type.Time',
+                                        formatOptions: {
+                                            source: { pattern: 'PTHHHMMMSSS' },
+                                            pattern: 'HH:mm'
+                                        }
+                                    } hs. 
+                                    Hasta { 
+                                        path: 'HoraDeEgreso', 
+                                        type: 'sap.ui.model.odata.type.Time',
+                                        formatOptions: {
+                                            source: { pattern: 'PTHHHMMMSSS' },
+                                            pattern: 'HH:mm'
+                                        }
+                                    } hs."/>
+                                <HBox justifyContent="End" id="horarioBtn">
+                                    <Button icon="sap-icon://away" type="Default" press="onStartInputChange"></Button>
+                                </HBox>
+                                <HBox visible="false" id="horarioInput">
+                                
+                                    <TimePicker id="ingreso" displayFormat="HH:mm" change="onInputChange"
+                                        class="sapUiTinyMarginEnd" 
+                                        value="{ 
+                                            path: 'Medico>/HoraDeIngreso', 
+                                            type: 'sap.ui.model.odata.type.Time',
+                                            formatOptions: {
+                                                source: { pattern: 'PTHHHMMMSSS' },
+                                                pattern: 'HH:mm'
+                                            }
+                                        }"/>
+                                    <TimePicker id="egreso" displayFormat="HH:mm" change="onInputChange"
+                                        value="{ 
+                                            path: 'Medico>/HoraDeEgreso', 
+                                            type: 'sap.ui.model.odata.type.Time',
+                                            formatOptions: {
+                                                source: { pattern: 'PTHHHMMMSSS' },
+                                                pattern: 'HH:mm'
+                                            }
+                                        }"/>
+                                </HBox>
+                                <HBox justifyContent="End" width="100%" visible="false" id="horarioSave">
+                                    <Button id="SaveEdit" icon="sap-icon://accept" class="sapUiTinyMarginEnd"
+                                        type="Accept" press="onSaveChanges"/>
+                                    <Button id="CancelEdit" icon="sap-icon://decline" 
+                                        type="Reject" press="onCancelChanges"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+                    </f:DynamicPageHeader>
+                </f:header>
+
+                <f:content>
+                    <Table id="turnos" growing="true" growingThreshold="15" items="{path:'ToTurnoSet'}"> 
+                        <headerToolbar >
+                            <OverflowToolbar >
+                                <content>
+                                    <ToolbarSpacer/>
+                                    <Button id="clearFilters" icon="sap-icon://clear-filter" 
+                                        text="Borrar filtros" press="onClearFilters" type="Emphasized"/>
+                                    <Button id="createMedico" icon="sap-icon://clinical-order" 
+                                        text="Nuevo Turno" press="onCreate" type="Accept"/>
+                                </content>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column mergeDuplicates="true" hAlign="Begin" minScreenWidth="Phone" demandPopin="true">
+                                <Text text="Fecha del Turno"></Text>
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="small" demandPopin="true">
+                                <Text text="Horario del turno"></Text>
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="XXLarge" demandPopin="true">
+                                <Text text="N° Turno"></Text>
+                            </Column>
+                            <Column hAlign="Begin" minScreenWidth="Desktop" demandPopin="true">
+                                <Text text="Dni"></Text>
+                            </Column>
+                            <Column hAlign="Begin" minScreenWidth="Desktop" demandPopin="true">
+                                <Text text="Paciente"></Text>
+                            </Column>
+                            <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+                                <Text text="Estado"></Text>
+                            </Column>
+                            <Column hAlign="Center" minScreenWidth="XSmall" demandPopin="true">
+                                <Text text="Acciones"></Text>
+                            </Column>
+                            
+                        </columns>
+                        <items>
+                            <ColumnListItem vAlign="Middle">
+                                <cells>
+                                    <Text text="{
+                                        path: 'FechaTurno',
+                                        type: 'sap.ui.model.type.Date',
+                                        formatOptions: {
+                                            pattern: 'dd/MM/yyyy'
+                                        }
+                                    }"/>
+                                    <Text text="{
+                                        path: 'HoraTurno', 
+                                        type: 'sap.ui.model.odata.type.Time',
+                                        formatOptions: {
+                                            source: { pattern: 'PTHHHMMMSSS' },
+                                            pattern: 'HH:mm'
+                                        }   
+                                    } hs."/>
+                                    <Text text="{IdTurno}"/>
+                                    <Text text="{DniPaciente}"/>
+                                    <Text text="{NombrePaciente}"></Text>
+                                    <HBox >
+                                        <ObjectStatus state="Success" text="Pendiente" visible="{= ${FechaTurno}.getTime() >= ${viewModel>/Hoy}.getTime()}"/>
+                                        <ObjectStatus text="Caducado" visible="{= !(${FechaTurno}.getTime() >= ${viewModel>/Hoy}.getTime())}"/>
+                                    </HBox>
+                                    <FlexBox justifyContent="Center" alignItems="Center">
+                                        <Button id="postergar" icon="sap-icon://away" press="onEdit"
+                                            enabled="{= ${FechaTurno}.getTime() >= ${viewModel>/Hoy}.getTime()}"
+                                            type="Default" class="sapUiTinyMarginEnd"/>
+                                        <Button id="deleteMedico" icon="sap-icon://delete" press="onDelete" 
+                                            type="Reject"/>
+                                    </FlexBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </f:content>
+                <f:footer>
+                    <OverflowToolbar >
+                        <HBox justifyContent="End" width="100%" alignItems="Center">
+                            <Label text="Paciente:" class="sapUiTinyMarginBeginEnd"/>
+                            <Input value="{filters>/Nombre}" valueLiveUpdate="true" type="Text"
+                                placeholder="ej. Perez, Pablo" liveChange="onSearch"/>
+                            <Label text="Fecha:" class="sapUiSmallMarginBegin"/>
+                            <DatePicker id="DP3" change="onSearch" class="sapUiTinyMarginBeginEnd"
+                                value="{ 
+                                    path: 'filters>/FechaTurno', 
+                                    type: 'sap.ui.model.odata.type.Date'
+                                }"/>
+                            <Button type="Ghost" text="Turnos de Hoy" class="sapUiSmallMarginBegin"
+                                press="onTurnosDeHoy"/>
+                        </HBox>
+                    </OverflowToolbar>
+                </f:footer>
+            </f:DynamicPage>
+		</tnt:mainContents>
+    </tnt:ToolPage>
+    
+    
+</mvc:View>
